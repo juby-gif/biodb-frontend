@@ -18,8 +18,9 @@ export default function SensorListComponent(props){
             onStepSensorClick,
             onWalkingandRunningSensorClick,
             onViewClick,
-            onUserProfileRetrieveClick
-          } = props;
+            onUserProfileRetrieveClick,
+            onEnergyBurnedSensorClick,
+            onHeartRateSensorClick } = props;
     return(
         <div>
             <p className = "validation-error">{message}</p>
@@ -38,6 +39,20 @@ export default function SensorListComponent(props){
                 style={{marginLeft:"3%"}}
                 onClick={(event)=>onWalkingandRunningSensorClick(event)}>
                 Walking and Running
+            </button>
+            <br />
+            <br />
+            <button
+                style={{marginLeft:"3%"}}
+                onClick={(event)=>onHeartRateSensorClick(event)}>
+                Heart Rate
+            </button>
+            <br />
+            <br />
+            <button
+                style={{marginLeft:"3%"}}
+                onClick={(event)=>onEnergyBurnedSensorClick(event)}>
+                Energy Burned
             </button>
             <br />
             <br />
@@ -115,6 +130,38 @@ export default function SensorListComponent(props){
                         View
                     </button>
                 </td>
+              </tr>
+            }
+            {name === "HKQuantityTypeIdentifierBasalEnergyBurned" &&
+              <tr key={name}>
+                <td>{name}</td>
+                <td>{mean}{" kcal"}</td>
+                <td>{mode}{" kcal"}</td>
+                <td>{median}{" kcal"}</td>
+                <td>{maximum}{" kcal"}</td>
+                <td>{minimum}{" kcal"}</td>
+                <td><button
+                        onClick={(event,name) => onViewClick(event,"HKQuantityTypeIdentifierBasalEnergyBurned")}>
+                        View
+                    </button>
+                </td>
+
+              </tr>
+            }
+            {name === "HKQuantityTypeIdentifierHeartRate" &&
+              <tr key={name}>
+                <td>{name}</td>
+                <td>{mean}{" count/min"}</td>
+                <td>{mode}{" count/min"}</td>
+                <td>{median}{" count/min"}</td>
+                <td>{maximum}{" count/min"}</td>
+                <td>{minimum}{" count/min"}</td>
+                <td><button
+                        onClick={(event,name) => onViewClick(event,"HKQuantityTypeIdentifierHeartRate")}>
+                        View
+                    </button>
+                </td>
+
               </tr>
             }
           </tbody>

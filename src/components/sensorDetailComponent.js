@@ -8,7 +8,7 @@ export default function SensorDetailComponent(props){
             searchTerm,
             onBackClick,
             onSearchChange,
-            nameURLParam} = props;
+            nameURLParam,} = props;
     return(
       <div>
         <h1 style={{textAlign:"center"}}>{name}</h1>
@@ -57,6 +57,12 @@ export default function SensorDetailComponent(props){
       }
       {datum.attribute_name === "HKQuantityTypeIdentifierDistanceWalkingRunning" &&
       <td>{datum.value}{" km"}</td>
+      }
+      {datum.attribute_name === "HKQuantityTypeIdentifierHeartRate" &&
+      <td>{datum.value}{" count/min"}</td>
+      }
+      {datum.attribute_name === "HKQuantityTypeIdentifierBasalEnergyBurned" &&
+      <td>{datum.value}{" kcal"}</td>
       }
     </tr>
   )

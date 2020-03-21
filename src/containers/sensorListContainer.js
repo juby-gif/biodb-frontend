@@ -31,6 +31,8 @@ export default class SensorListContainer extends Component{
         this.onViewClick = this.onViewClick.bind(this);
         this.onLogoutClick = this.onLogoutClick.bind(this);
         this.onUserProfileRetrieveClick = this.onUserProfileRetrieveClick.bind(this);
+        this.onHeartRateSensorClick = this.onHeartRateSensorClick.bind(this);
+        this.onEnergyBurnedSensorClick = this.onEnergyBurnedSensorClick.bind(this);
       }
 
     /* *
@@ -65,6 +67,7 @@ export default class SensorListContainer extends Component{
       })
 
         .then(response => {
+          console.log(response.data)
           if(response.data.Error == undefined){
             this.setState({
                 name : response.data.name,
@@ -98,9 +101,9 @@ export default class SensorListContainer extends Component{
     event.preventDefault();
     localStorage.removeItem(BIODB_TOKEN);
     localStorage.removeItem(BIODB_USER_DETAIL);
+    localStorage.removeItem(BIODB_LOGGED_IN_USER);
     alert("Succesfully Logged out");
     this.props.history.push("/login");
-
     }
 
     onUserProfileRetrieveClick = (event) => {
@@ -129,6 +132,16 @@ export default class SensorListContainer extends Component{
       this.onSensorStatisticsDataLoad("HKQuantityTypeIdentifierDistanceWalkingRunning");
       }
 
+    onHeartRateSensorClick = (event) => {
+      event.preventDefault();
+      this.onSensorStatisticsDataLoad("HKQuantityTypeIdentifierHeartRate");
+      }
+
+    onEnergyBurnedSensorClick = (event) => {
+      event.preventDefault();
+      this.onSensorStatisticsDataLoad("HKQuantityTypeIdentifierBasalEnergyBurned");
+      }
+
     /* *
        *  Main render function
        *------------------------------------------------------------
@@ -153,7 +166,9 @@ export default class SensorListContainer extends Component{
           onWalkingandRunningSensorClick,
           onViewClick,
           onLogoutClick,
-          onUserProfileRetrieveClick} = this;
+          onUserProfileRetrieveClick,
+          onHeartRateSensorClick,
+          onEnergyBurnedSensorClick,} = this;
         return(
           <div>
               <SensorListComponent
@@ -170,6 +185,8 @@ export default class SensorListContainer extends Component{
                       onWalkingandRunningSensorClick={onWalkingandRunningSensorClick}
                       onViewClick={onViewClick}
                       onUserProfileRetrieveClick={onUserProfileRetrieveClick}
+                      onHeartRateSensorClick={onHeartRateSensorClick}
+                      onEnergyBurnedSensorClick={onEnergyBurnedSensorClick}
               />
               <LogoutComponent
                 onLogoutClick = {onLogoutClick}
