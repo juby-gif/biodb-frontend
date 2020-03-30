@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import UserProfileRetrieveComponent from '../components/userProfileRetrieveComponent'
 
 import SensorListComponent from '../components/sensorListComponent';
-import LogoutComponent from '../components/logoutComponent';
 import { BIODB_TOKEN,BIODB_USER_DETAIL,BIODB_LOGGED_IN_USER } from '../constants';
 
 
@@ -103,7 +102,7 @@ export default class SensorListContainer extends Component{
     localStorage.removeItem(BIODB_USER_DETAIL);
     localStorage.removeItem(BIODB_LOGGED_IN_USER);
     alert("Succesfully Logged out");
-    this.props.history.push("/login");
+    this.props.history.push("/");
     }
 
     onUserProfileRetrieveClick = (event) => {
@@ -187,9 +186,7 @@ export default class SensorListContainer extends Component{
                       onUserProfileRetrieveClick={onUserProfileRetrieveClick}
                       onHeartRateSensorClick={onHeartRateSensorClick}
                       onEnergyBurnedSensorClick={onEnergyBurnedSensorClick}
-              />
-              <LogoutComponent
-                onLogoutClick = {onLogoutClick}
+                      onLogoutClick = {onLogoutClick}
               />
         </div>
       );

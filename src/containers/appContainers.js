@@ -7,6 +7,9 @@ import SensorListContainer from './sensorListContainer';
 import SensorDetailContainer from './sensorDetailContainer';
 import UserProfileRetrieveContainer from './userProfileRetrieveContainer';
 import UserProfileUpdateContainer from './userProfileUpdateContainer';
+import LandingPageContainer from './landingPageContainer';
+import ClassicFormPage from './aboutContainer';
+import ContactContainer from './contactContainer';
 
 class AppContainers extends Component {
   render() {
@@ -14,6 +17,9 @@ class AppContainers extends Component {
         <Router>
          <div>
            <Switch>
+               <Route path="/" exact component={LandingPageContainer} />
+               <Route path="/about" exact component={ClassicFormPage} />
+               <Route path="/contact" exact component={ContactContainer} />
                <Route path="/login" exact component={LoginContainer} />
                <Route path="/register" exact component={RegisterContainer} />
                <Route path="/sensor-list" exact component={SensorListContainer} />

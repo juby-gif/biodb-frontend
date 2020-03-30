@@ -19,6 +19,7 @@ export default class LoginContainer extends Component{
           password:"",
           response:"",
           message:"",
+          validated:false,
         }
         this.onUsernameChange = this.onUsernameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
@@ -91,6 +92,9 @@ export default class LoginContainer extends Component{
         event.preventDefault();
         const {username,password} = this.state;
         this.onLoginAPIProcessCall(username,password);
+        this.setState({
+          validated:true,
+        })
       }
 
       onRegisterClick(event){
@@ -103,15 +107,16 @@ export default class LoginContainer extends Component{
          *------------------------------------------------------------
       */
       render(){
-        const {username,password,response,message} = this.state;
+        const {username,password,response,message,validated} = this.state;
         const {onUsernameChange,onPasswordChange,onLoginClick,onRegisterClick} = this;
         return(
-          <div>
+          <div  className="bg-img">
               <LoginComponent
               username={username}
               password={password}
               response={response}
               message={message}
+              validated={validated}
               onUsernameChange={onUsernameChange}
               onPasswordChange={onPasswordChange}
               onLoginClick={onLoginClick}
