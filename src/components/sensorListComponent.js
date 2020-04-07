@@ -33,7 +33,7 @@ export default function SensorListComponent(props){
             onUserProfileRetrieveClick,
             onEnergyBurnedSensorClick,
             onHeartRateSensorClick,
-          onLogoutClick } = props;
+          onLogoutClick,file,onFileChange } = props;
     return(
         <div>
             <Container fluid>
@@ -159,6 +159,14 @@ export default function SensorListComponent(props){
                         maximum={maximum}
                         minimum={minimum}
                         onViewClick = {onViewClick}
+                    />
+                </Row>
+                <Row>
+                    <input
+                        type="file"
+                        placeholder="Upload your file"
+                        value={file}
+                        onChange={event=>onFileChange(event)}
                     />
                 </Row>
             </Container>

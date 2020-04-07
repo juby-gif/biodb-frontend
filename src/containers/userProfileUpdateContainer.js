@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios } from 'react-axios';
 
 import UserProfileUpdateComponent from '../components/userProfileUpdateComponent'
 import { BIODB_TOKEN,BIODB_USER_DETAIL } from '../constants';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import UserProfileRetrieveComponent from '../components/userProfileRetrieveComponent'
 
 import SensorListComponent from '../components/sensorListComponent';
+import UserProfileRetrieveComponent from '../components/userProfileRetrieveComponent'
 import { BIODB_TOKEN,BIODB_USER_DETAIL,BIODB_LOGGED_IN_USER } from '../constants';
 
 
@@ -23,6 +23,7 @@ export default class SensorListContainer extends Component{
           median : "",
           maximum : "",
           minimum : "",
+          file:"",
 
         };
         this.onStepSensorClick = this.onStepSensorClick.bind(this);
@@ -32,6 +33,7 @@ export default class SensorListContainer extends Component{
         this.onUserProfileRetrieveClick = this.onUserProfileRetrieveClick.bind(this);
         this.onHeartRateSensorClick = this.onHeartRateSensorClick.bind(this);
         this.onEnergyBurnedSensorClick = this.onEnergyBurnedSensorClick.bind(this);
+        this.onFileChange = this.onFileChange.bind(this);
       }
 
     /* *
@@ -141,6 +143,16 @@ export default class SensorListContainer extends Component{
       this.onSensorStatisticsDataLoad("HKQuantityTypeIdentifierBasalEnergyBurned");
       }
 
+      onFileChange(event){
+        this.setState({
+          file:event.target.files[0],
+        })
+
+
+     // Details of the uploaded file
+     console.log(this.state.file);
+      }
+
     /* *
        *  Main render function
        *------------------------------------------------------------
@@ -158,8 +170,8 @@ export default class SensorListContainer extends Component{
                 lastName,
                 username,
                 email,
-                welcomeName
-                 } = this.state;
+                welcomeName,
+                 file} = this.state;
         const {
           onStepSensorClick,
           onWalkingandRunningSensorClick,
@@ -167,7 +179,8 @@ export default class SensorListContainer extends Component{
           onLogoutClick,
           onUserProfileRetrieveClick,
           onHeartRateSensorClick,
-          onEnergyBurnedSensorClick,} = this;
+          onEnergyBurnedSensorClick,
+        onFileChange} = this;
         return(
           <div>
               <SensorListComponent
@@ -180,6 +193,7 @@ export default class SensorListContainer extends Component{
                       median={median}
                       maximum={maximum}
                       minimum={minimum}
+                      file={file}
                       onStepSensorClick={onStepSensorClick}
                       onWalkingandRunningSensorClick={onWalkingandRunningSensorClick}
                       onViewClick={onViewClick}
@@ -187,6 +201,7 @@ export default class SensorListContainer extends Component{
                       onHeartRateSensorClick={onHeartRateSensorClick}
                       onEnergyBurnedSensorClick={onEnergyBurnedSensorClick}
                       onLogoutClick = {onLogoutClick}
+                      onFileChange={onFileChange}
               />
         </div>
       );

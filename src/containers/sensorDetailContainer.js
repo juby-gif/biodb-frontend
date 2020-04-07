@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios } from 'react-axios';
 
 import SensorDetailComponent from '../components/sensorDetailComponent';
 import { BIODB_TOKEN } from '../constants';
@@ -13,19 +12,26 @@ export default class SensorDetailContainer extends Component{
     */
     constructor(props){
       super(props);
-
-      const { nameURLParam } = this.props.match.params
-      const name = props.name;
+      const name  = this.props.match.params.name;
       this.state={
         name:name,
         token: localStorage.getItem(BIODB_TOKEN),
-        data:null,
         message:"",
         searchTerm:"",
-        nameURLParam:nameURLParam,
-      }
+
+        // Pagination
+        page: 1,
+        sizePerPage: 25,
+        totalSize: 0,
+        isLoading:true,
+
+        //List
+        data:null,
+        }
       this.onBackClick = this.onBackClick.bind(this);
       this.onSearchChange = this.onSearchChange.bind(this);
+      this.onTableChange = this.onTableChange.bind(this);
+      this.onSensorDetailLoad = this.onSensorDetailLoad.bind(this);
     }
 
     /* *
@@ -39,82 +45,129 @@ export default class SensorDetailContainer extends Component{
        *------------------------------------------------------------
     */
     componentDidMount(){
-      const { name } = this.props.match.params;
-      this.onSensorDetailLoad(name);
+      const name = this.props.match.params.name;
+      let page = this.state.page
+      this.onSensorDetailLoad(name,page);
+      // console.log(this.state.data)// For debugging purpose only
     }
 
     /* *
         *  API callback functions
         *------------------------------------------------------------
     */
-    onSensorDetailLoad(name){
-      const axios = require('axios').default;
-      const token = this.state.token;
+    async onSensorDetailLoad(name,page,sizePerPage){
+        // console.log(name,page)// For debugging purpose only
+        const axios = require('axios').default;
+        const token = localStorage.getItem(BIODB_TOKEN);
+        let URL = "http://127.0.0.1:8000/api/tsd-by-attribute-name?attribute_name=" + name + "&page="+page + "&page_size=" + sizePerPage;
+        axios.get(URL, {
+          headers: {
+            'Authorization': 'Token '+ token
+          }
+          })
 
-      axios.get('http://127.0.0.1:8000/api/tsd-by-attribute-name?attribute_name=' + name, {
-        headers: {
-          'Authorization': 'Token '+ token
-        }
+          .then(response => {
+            // console.log(response); // For debugging purposes only.
+            let totalSize = response.data.count;
+            let results = response.data.results;
+            // console.log(response.data.results); //For debugging purpose only
+            this.setState({
+              data:results,
+              totalSize:totalSize,
+              page:page,
+              isLoading:false,
+              sizePerPage:sizePerPage,
+            });
+          })
+
+          .catch(error => {
+            this.setState({
+                message : error.toString(),
+                isLoading:false,
+            });
+            console.log(error);
+          })
+      }
+
+      /* *
+         *  Event handling functions
+         *------------------------------------------------------------
+      */
+      onSearchChange = (event) => {
+        event.preventDefault();
+        this.setState({
+          searchTerm:event.target.value,
         })
+      }
 
-        .then(response => {
-          this.setState({
-            data:response.data,
-          });
-        })
+      onBackClick = (event) => {
+        event.preventDefault();
+      this.props.history.push("/sensor-list")
+      }
 
-        .catch(error => {
-          this.setState({
-              message : error.toString()
-          });
-          console.log(error);
-        })
+      async onTableChange(type,event) {
+          if(type === "pagination"){
+            const { page,sizePerPage } = event;
+            const { name } = this.state;
+            // console.log("On Table Change ",event); // For debugging purposes only.
+            //   console.log("On Table Change  " + type ); // For debugging purposes only.
+              console.log("Event ", event.page);
+
+              this.setState(
+                  {
+                    page: page,
+                    isLoading: true,
+                    sizePerPage:sizePerPage,
+                  },
+                  ()=>{
+                      this.onSensorDetailLoad(name,page,sizePerPage);
+                  }
+              );
     }
-
-    /* *
-       *  Event handling functions
-       *------------------------------------------------------------
-    */
-    onSearchChange = (event) => {
-      event.preventDefault();
-      this.setState({
-        searchTerm:event.target.value,
-      })
     }
-
-    onBackClick = (event) => {
-      event.preventDefault();
-    this.props.history.push("/sensor-list")
-    }
-
 
     /* *
        *  Main render function
        *------------------------------------------------------------
     */
-  render(){
-      const { name,
-              token,
-              data,
-              message,
-              searchTerm,
-              nameURLParam,
-            } = this.state;
-      const { onBackClick,
-              onSearchChange } = this;
-      return(
-        <div>
-            <SensorDetailComponent
-                    name={name}
-                    token={token}
-                    data={data}
-                    message={message}
-                    searchTerm={searchTerm}
-                    nameURLParam={nameURLParam}
-                    onBackClick={onBackClick}
-                    onSearchChange={onSearchChange}
-            />
-        </div>
-      );
-    }
-}
+    render(){
+
+        const { name,
+                token,
+                data,
+                message,
+                searchTerm,
+                page,
+                sizePerPage,
+                totalSize,
+                isLoading,
+              } = this.state;
+
+              // console.log(name); // For debugging purposes only.
+              // console.log(totalSize) // For debugging purposes only.
+
+        const { onBackClick,
+                onSearchChange,
+                 onTableChange,
+              } = this;
+
+        return(
+          <div>
+              <SensorDetailComponent
+                      name={name}
+                      token={token}
+                      message={message}
+                      searchTerm={searchTerm}
+                      onBackClick={onBackClick}
+                      onSearchChange={onSearchChange}
+                      page={page}
+                      sizePerPage={sizePerPage}
+                      totalSize={totalSize}
+                      data={data}
+                      isLoading={isLoading}
+                      onTableChange={onTableChange}
+              />
+          </div>
+        );
+      }
+  }
