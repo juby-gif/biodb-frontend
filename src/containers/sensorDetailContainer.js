@@ -57,6 +57,8 @@ export default class SensorDetailContainer extends Component{
     */
     async onSensorDetailLoad(name,page,sizePerPage){
         // console.log(name,page)// For debugging purpose only
+        
+        setTimeout(() => { //Set delay of 1500 for loading state
         const axios = require('axios').default;
         const token = localStorage.getItem(BIODB_TOKEN);
         let URL = "http://127.0.0.1:8000/api/tsd-by-attribute-name?attribute_name=" + name + "&page="+page + "&page_size=" + sizePerPage;
@@ -87,7 +89,8 @@ export default class SensorDetailContainer extends Component{
             });
             console.log(error);
           })
-      }
+          },1500);
+        }
 
       /* *
          *  Event handling functions

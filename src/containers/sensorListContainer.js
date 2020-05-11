@@ -60,6 +60,9 @@ export default class SensorListContainer extends Component{
     onSensorStatisticsDataLoad(name){
       const axios = require('axios').default;
       const token = this.state.token;
+      this.setState({
+        message:"",
+      })
 
       axios.get('http://127.0.0.1:8000/api/tsd?attribute_name=' + name, {
         headers: {
@@ -114,7 +117,8 @@ export default class SensorListContainer extends Component{
 
     onViewClick = (event,name) => {
       event.preventDefault();
-      alert(name)
+      // console.log(name) // For debugging purpose only
+
       if(name === "" || name === undefined || name === null){
         this.props.history.push(`/sensor-detail/error`);
       }
@@ -202,6 +206,7 @@ export default class SensorListContainer extends Component{
                       onEnergyBurnedSensorClick={onEnergyBurnedSensorClick}
                       onLogoutClick = {onLogoutClick}
                       onFileChange={onFileChange}
+                      
               />
         </div>
       );

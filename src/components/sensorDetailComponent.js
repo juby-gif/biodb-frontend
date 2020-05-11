@@ -10,6 +10,10 @@ import Table from 'react-bootstrap/Table';
 import { LinkContainer } from 'react-router-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
+import Container from 'react-bootstrap/Container';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
@@ -17,7 +21,8 @@ import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { selectFilter } from 'react-bootstrap-table2-filter';
-
+import ReactLoading from "react-loading";
+import Button from 'react-bootstrap/Button';
 
 const customTotal = (from, to, size) => (
     <span className="react-bootstrap-table-pagination-total">&nbsp;Showing { from } to { to } of { size } Results</span>
@@ -39,15 +44,15 @@ class RemoteListComponent extends Component {
 
       const columns = [{
             dataField: 'attribute_name',
-            text: 'Name',
+            text: ' Attribute Name',
             sort: false,
         },{
               dataField: 'creation_date',
-              text: 'Date',
+              text: 'Creation Date',
               sort: false,
         },{
               dataField: 'value',
-              text: 'value',
+              text: 'Value',
               sort: false,
 
           }]
@@ -84,7 +89,7 @@ class RemoteListComponent extends Component {
                   data={ this.props.data }
                   columns={columns}
                   striped
-                  bordered={ false }
+                  bordered={ true }
                   noDataIndication="No Records were found!"
                   remote
                   onTableChange={ onTableChange }
@@ -108,48 +113,62 @@ export default function SensorDetailComponent(props){
             isLoading,
           } = props;
     return(
-      <div>
-        <h1 style={{textAlign:"center"}}>{name}</h1>
-        <Navbar className="nav-bar" fixed="top" expand="sm" >
+      <Container fluid style={{backgroundColor:"white"}}>
+        <Navbar style={{backgroundColor:"black"}} className="nav-bar" fixed="top">
             <LinkContainer  style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
             </LinkContainer>
             <Nav className="ml-auto">
-                <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/sensor-list"><Nav.Link>Home</Nav.Link>
-                </LinkContainer>
-                <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/user-profile"><Nav.Link>Profile</Nav.Link>
-                </LinkContainer>
-                <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/settings"><Nav.Link>Settings</Nav.Link>
-                </LinkContainer>
+              <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/sensor-list"><Nav.Link>Dashboard</Nav.Link>
+              </LinkContainer>
+              <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/user-profile"><Nav.Link>Profile</Nav.Link>
+              </LinkContainer>
+              <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/settings"><Nav.Link>Settings</Nav.Link>
+              </LinkContainer>
             </Nav>
         </Navbar>
-        <p className = "validation-error">{message}</p>
-        <br />
-        <center>
-            <input
-              style={{width:"40%"}}
-              text="text"
-              placeholder="Search your data here..."
-              value={searchTerm}
-              onChange={event => onSearchChange(event)}
+      {isLoading ? (
+        <div className="mt-5 pt-5">
+            <div className="mt-5 pt-5">
+                <center className="mt-5 pt-5">
+                    <ReactLoading className="mt-5 pt-5" type={"bars"} color={"white"} />
+                </center>
+            </div>
+        </div>
+        ) : (
+        <div>
+            <Row className="mt-5">
+              <h1 className="mt-5 text-center mw-75" style={{color:"black",}}>{name}</h1>
+            </Row>
+            {message != "" &&
+            <div className="mt-4 w-75">
+                <Alert variant="danger" >
+                    {message}
+                </Alert>
+            </div>}
+            <br />
+            {/*<center>                      # Search field for phase 2
+                <input
+                  style={{width:"40%"}}
+                  text="text"
+                  placeholder="Search your data here..."
+                  value={searchTerm}
+                  onChange={event => onSearchChange(event)}
+                />
+            </center>*/}
+            <br />
+            <RemoteListComponent
+                  page={page}
+                  sizePerPage={sizePerPage}
+                  totalSize={totalSize}
+                  data={data}
+                  onTableChange={onTableChange}
             />
-        </center>
-        <br />
-        {isLoading && <h1>Loading.....</h1>}
-        <RemoteListComponent
-              page={page}
-              sizePerPage={sizePerPage}
-              totalSize={totalSize}
-              data={data}
-              onTableChange={onTableChange}
-        />
-        <br />
-        <br />
-        <br />
-        <button
-            style={{marginLeft:"15%",marginRight:"60%",marginTop:"2%",marginBottom:"2%"}}
-            onClick={event => onBackClick(event)}>
-            Back
-        </button>
-      </div>
+            <Button
+                className="mt-5 mb-5"
+                onClick={event => onBackClick(event)}>
+                Back
+            </Button>
+        </div>)}
+      </Container>
     );
     }

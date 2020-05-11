@@ -11,6 +11,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner'
 
 import img5 from '../img/img5.jpg';
 import img6 from '../img/img6.jpg';
@@ -35,122 +38,121 @@ export default function SensorListComponent(props){
             onHeartRateSensorClick,
           onLogoutClick,file,onFileChange } = props;
     return(
-        <div>
-            <Container fluid>
+            <Container style={{backgroundColor:"white"}} fluid>
+                        <Navbar style={{backgroundColor:"black"}} className="nav-bar" fixed="top">
+                            <LinkContainer  style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
+                            </LinkContainer>
+                            <Nav className="ml-auto">
+                              <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/user-profile"><Nav.Link>Profile</Nav.Link>
+                              </LinkContainer>
+                              <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/settings"><Nav.Link>Settings</Nav.Link>
+                              </LinkContainer>
+                              <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/" onClick={event=>onLogoutClick(event)}><Nav.Link>Logout</Nav.Link>
+                              </LinkContainer>
+                            </Nav>
+                        </Navbar>
+                  <Row className="mt-5 ml-3">
+
+                  {message !== "" &&
+                  <div className="mt-4 w-75">
+
+                  <Alert variant="danger" >
+                      {message}
+                  </Alert>
+                  </div>
+                  }
+
+                  </Row>
                   <Row>
-                    <Col>
-                    <Navbar className="nav-bar" fixed="top" expand="sm" >
-                        <LinkContainer  style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
-                        </LinkContainer>
-                        <Nav className="ml-auto">
-                          <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/user-profile"><Nav.Link>Profile</Nav.Link>
-                          </LinkContainer>
-                          <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/settings"><Nav.Link>Settings</Nav.Link>
-                          </LinkContainer>
-                          <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/" onClick={event=>onLogoutClick(event)}><Nav.Link>Logout</Nav.Link>
-                          </LinkContainer>
-                        </Nav>
-                    </Navbar>
                       <br />
-
-                    </Col>
+                      <p className="ml-3 mt-4">Welcome <strong>{welcomeName.charAt(0).toUpperCase().concat(welcomeName.slice(1))}</strong>,</p>
+                      <br />
                   </Row>
+                  <br />
+                  <br />
+                  <br />
 
-                  <br />
-                  <br />
-                  <br />
-                  <Row>
-                    {message !== "" && <p className = "validation-error">{message}</p>}
-                    <br />
-                    <p>Welcome <strong>{welcomeName.charAt(0).toUpperCase().concat(welcomeName.slice(1))}</strong>,</p>
 
-                    <br />
-                  </Row>
-                  <Col>
-                  </Col>
-                  <br />
-                  <br />
-                  <br />
-                  <Row>
-                      <Col>
+                  <Row className="ml-5 mr-5">
                         <CardDeck>
-                            <Col>
-
+                          <Row>
+                            <Col className="mt-3">
                                 <Card style={{ backgroundColor:"lightblue", height:"20rem",width: '18rem' }}>
-
-                                <span style={{ fontSize:"6.5em",transform:"translateX(30%)"}}><i className="fas fa-shoe-prints"></i></span>
+                                      <span style={{ fontSize:"6.5em",}}><center><i className="fas fa-shoe-prints"></i></center></span>
+                                      <Card.Body>
+                                          <Card.Title>StepCount</Card.Title>
+                                          <Card.Text>
+                                                Check your Step Count Statistics
+                                          </Card.Text>
+                                          <br />
+                                          <center>
+                                              <Button
+                                                    onClick={(event)=>onStepSensorClick(event)}>
+                                                  StepCount
+                                              </Button>
+                                          </center>
+                                      </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col className="mt-3">
+                              <Card style={{  backgroundColor:"lightblue",height:"20rem",width: '18rem' }}>
+                                  <span style={{fontSize:"6.5em",}}><center><i className="fas fa-running"></i></center></span>
                                   <Card.Body>
-                                    <Card.Title>StepCount</Card.Title>
-                                    <Card.Text>
-                                      Check your Step Count Statistics
-                                    </Card.Text>
-                                    <br />
-                                    <button
-                                        style={{marginLeft:"3%"}}
-                                        onClick={(event)=>onStepSensorClick(event)}>
-                                        StepCount
-                                    </button>
+                                      <Card.Title>Walking and Running</Card.Title>
+                                      <Card.Text>
+                                          Check your Walking and Running Statistics
+                                      </Card.Text>
+                                      <center>
+                                          <Button
+                                              onClick={(event)=>onWalkingandRunningSensorClick(event)}>
+                                              Walking and Running
+                                          </Button>
+                                      </center>
                                   </Card.Body>
                                 </Card>
                             </Col>
-                            <Col>
-                              <Card style={{  backgroundColor:"lightblue",height:"20rem",width: '18rem' }}>
-
-                                  <span style={{fontSize:"6.5em",transform:"translateX(30%)"}}><i className="fas fa-running"></i></span>
-                                    <Card.Body>
-                                      <Card.Title>Walking and Running</Card.Title>
-                                      <Card.Text>
-                                        Check your Walking and Running Statistics
-                                      </Card.Text>
-                                      <button
-                                          style={{marginLeft:"3%"}}
-                                          onClick={(event)=>onWalkingandRunningSensorClick(event)}>
-                                          Walking and Running
-                                      </button>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col>
+                            <Col className="mt-3">
                                 <Card style={{ backgroundColor:"lightblue",height:"20rem",width: '18rem' }}>
-                                    <span style={{ fontSize:"6.5em",transform:"translateX(30%)"}}><i className="fas fa-heartbeat"></i></span>
+                                    <span style={{ fontSize:"6.5em",}}><center><i className="fas fa-heartbeat"></i></center></span>
                                       <Card.Body>
                                           <Card.Title>Heart Rate</Card.Title>
                                           <Card.Text>
                                             Check your Heart Rate Statistics
                                           </Card.Text>
                                           <br />
-                                          <button
-                                              style={{marginLeft:"3%"}}
-                                              onClick={(event)=>onHeartRateSensorClick(event)}>
-                                              Heart Rate
-                                          </button>
+                                          <center>
+                                              <Button
+                                                  onClick={(event)=>onHeartRateSensorClick(event)}>
+                                                  Heart Rate
+                                              </Button>
+                                          </center>
                                       </Card.Body>
                                 </Card>
                             </Col>
-                            <Col>
+                            <Col className="mt-3">
                                 <Card style={{ backgroundColor:"lightblue",height:"20rem",width: '18rem' }}>
-                                    <span style={{ fontSize:"6.5em",transform:"translateX(30%)"}}><i className="fas fa-fire"></i></span>
+                                    <span style={{ fontSize:"6.5em",}}><center><i className="fas fa-fire"></i></center></span>
 
                                     <Card.Body>
                                       <Card.Title>Energy Burned</Card.Title>
                                       <Card.Text>
                                         Check your Energy Burned Statistics
                                       </Card.Text>
-                                      <button
-                                          style={{marginLeft:"3%"}}
-                                          onClick={(event)=>onEnergyBurnedSensorClick(event)}>
-                                          Energy Burned
-                                      </button>
+                                      <center>
+                                          <Button
+                                              onClick={(event)=>onEnergyBurnedSensorClick(event)}>
+                                              Energy Burned
+                                          </Button>
+                                      </center>
                                   </Card.Body>
                                 </Card>
-
                             </Col>
+                            </Row>
                       </CardDeck>
-                    </Col>
                 </Row>
                 <br />
                 <br />
-                <Row>
+                <Row className="ml-5 mr-5">
                     <SensorTable
                         name={name}
                         mean={mean}
@@ -161,7 +163,7 @@ export default function SensorListComponent(props){
                         onViewClick = {onViewClick}
                     />
                 </Row>
-                <Row>
+                <Row className="mt-5 ml-5">
                     <input
                         type="file"
                         placeholder="Upload your file"
@@ -169,9 +171,9 @@ export default function SensorListComponent(props){
                         onChange={event=>onFileChange(event)}
                     />
                 </Row>
+                <br />
+                <br />
             </Container>
-
-        </div>
       );
   }
 
@@ -207,10 +209,10 @@ export default function SensorListComponent(props){
               <td>{median}{" count"}</td>
               <td>{maximum}{" count"}</td>
               <td>{minimum}{" count"}</td>
-              <td><button
+              <td><Button
                       onClick={(event,name) => onViewClick(event,"HKQuantityTypeIdentifierStepCount")}>
                       View
-                  </button>
+                  </Button>
               </td>
 
             </tr>
@@ -223,10 +225,10 @@ export default function SensorListComponent(props){
               <td>{median}{" km"}</td>
               <td>{maximum}{" km"}</td>
               <td>{minimum}{" km"}</td>
-              <td><button
+              <td><Button
                       onClick={(event,name) => onViewClick(event,"HKQuantityTypeIdentifierDistanceWalkingRunning")}>
                       View
-                  </button>
+                  </Button>
               </td>
             </tr>
           }
@@ -238,10 +240,10 @@ export default function SensorListComponent(props){
               <td>{median}{" kcal"}</td>
               <td>{maximum}{" kcal"}</td>
               <td>{minimum}{" kcal"}</td>
-              <td><button
+              <td><Button
                       onClick={(event,name) => onViewClick(event,"HKQuantityTypeIdentifierBasalEnergyBurned")}>
                       View
-                  </button>
+                  </Button>
               </td>
 
             </tr>
@@ -254,10 +256,10 @@ export default function SensorListComponent(props){
               <td>{median}{" count/min"}</td>
               <td>{maximum}{" count/min"}</td>
               <td>{minimum}{" count/min"}</td>
-              <td><button
+              <td><Button
                       onClick={(event,name) => onViewClick(event,"HKQuantityTypeIdentifierHeartRate")}>
                       View
-                  </button>
+                  </Button>
               </td>
 
             </tr>

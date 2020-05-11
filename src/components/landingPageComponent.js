@@ -18,7 +18,7 @@ export default function LandingPageComponent(props){
     <Container fluid>
         <Row>
           <Navbar  fixed="top" expand="sm" >
-              <LinkContainer className="nav" style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
+              <LinkContainer style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
               </LinkContainer>
               <Nav className="mr-auto">
                 <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/login"><Nav.Link>Login</Nav.Link>
@@ -38,7 +38,7 @@ export default function LandingPageComponent(props){
                       className="d-block w-100"
                       src={img2}
                       alt="First slide"
-                      width="800" height="850"
+                      width="100vw" height="800vh"
                       style={{opacity: "0.8"}}
                     />
                     <Carousel.Caption style={{transform: "translateY(-190%)"}}>

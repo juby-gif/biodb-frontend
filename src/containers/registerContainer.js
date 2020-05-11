@@ -19,7 +19,8 @@ export default class RegisterContainer extends Component{
         username:"",
         password:"",
         message : "",
-        error:"",
+        status: "",
+        validated: false,
         responseRegister:{}
       }
       this.onUsernameChange = this.onUsernameChange.bind(this);
@@ -29,6 +30,7 @@ export default class RegisterContainer extends Component{
       this.onEmailChange = this.onEmailChange.bind(this);
       this.onRegisterClick = this.onRegisterClick.bind(this);
       this.onLoginClick = this.onLoginClick.bind(this);
+      this.onResponseProcessFromAPI = this.onResponseProcessFromAPI.bind(this);
     }
 
     /* *
@@ -41,6 +43,8 @@ export default class RegisterContainer extends Component{
        *  Component Life-cycle Management
        *------------------------------------------------------------
     */
+
+
     //Nothing
 
     /* *
@@ -59,18 +63,18 @@ export default class RegisterContainer extends Component{
         })
 
       .then(response => {
-        this.setState({
-            responseRegister : JSON.parse(response.request.response)
+        this.setState({ //Not working correctly...Need to be fixed later
+            responseRegister : JSON.parse(response.request.response),
+            message : "Success! You are registered as a BioDB user",
+            status:"success",
         });
-        alert("Successfully Registered");
-        console.log(this.state.responseRegister) //For Debugging Purpose Only
-        this.props.history.push("/login");
-
+        this.props.history.push("/login")
       })
 
       .catch(error => {
         this.setState({
-            error :error.toString(),
+            message :error.toString(),
+            status : "failure",
         });
         });
     }
@@ -85,6 +89,7 @@ export default class RegisterContainer extends Component{
       })
       this.setState({
         firstName:event.target.value,
+        validated:true,
       })
     }
 
@@ -94,6 +99,7 @@ export default class RegisterContainer extends Component{
       })
       this.setState({
         lastName:event.target.value,
+        validated:true,
       })
     }
 
@@ -103,6 +109,7 @@ export default class RegisterContainer extends Component{
       })
       this.setState({
         email:event.target.value,
+        validated:true,
       })
     }
 
@@ -112,6 +119,7 @@ export default class RegisterContainer extends Component{
       })
       this.setState({
         username:event.target.value,
+        validated:true,
       })
     }
 
@@ -121,6 +129,7 @@ export default class RegisterContainer extends Component{
     })
     this.setState({
       password:event.target.value,
+      validated:true,
     })
   }
 
@@ -129,15 +138,22 @@ export default class RegisterContainer extends Component{
         this.props.history.push("/login");
       }
 
-  onRegisterClick(event){
+  onRegisterClick(event){ // Need to fix the register issue
     const { username,
             password,
             firstName,
             lastName,
-            email,
-            message,
-            user } = this.state;
+            email,} = this.state;
+            console.log(firstName,lastName,email,username,password);
+            this.onResponseProcessFromAPI(firstName,lastName,email,username,password);
+  }
+
+  onResponseProcessFromAPI(firstName,lastName,email,username,password){
+    const { status,} = this.state;
     this.getResponseFromAPI(firstName,lastName,email,username,password);
+    if(status === "success"){
+      this.props.history.push("/login");
+    }
   }
 
   /* *
@@ -151,9 +167,9 @@ export default class RegisterContainer extends Component{
               username,
               password,
               message,
-              error,
               responseRegister,
-            } = this.state;
+              status,
+              validated } = this.state;
       const { onUsernameChange,
               onPasswordChange,
               onFirstNameChange,
@@ -165,12 +181,13 @@ export default class RegisterContainer extends Component{
         <div>
             <RegisterComponent
                     firstName={firstName}
+                    status={status}
                     lastName={lastName}
                     email={email}
                     username={username}
                     password={password}
                     message={message}
-                    error={error}
+                    validated={validated}
                     responseRegister={responseRegister}
                     onUsernameChange={onUsernameChange}
                     onPasswordChange={onPasswordChange}

@@ -52,7 +52,7 @@ export default class LoginContainer extends Component{
         .then(response => {
           this.setState({
               response : JSON.parse(response.request.response),
-              message : "Successfully Logged in"
+              message : "Successfully Logged in",
           });
           localStorage.setItem(BIODB_LOGGED_IN_USER,JSON.stringify({username:username}));
           localStorage.setItem(BIODB_TOKEN,this.state.response.token);
@@ -107,10 +107,10 @@ export default class LoginContainer extends Component{
          *------------------------------------------------------------
       */
       render(){
-        const {username,password,response,message,validated} = this.state;
+        const {username,password,response,message,validated,setShow} = this.state;
         const {onUsernameChange,onPasswordChange,onLoginClick,onRegisterClick} = this;
         return(
-          <div  className="bg-img">
+          <div>
               <LoginComponent
               username={username}
               password={password}
@@ -121,6 +121,7 @@ export default class LoginContainer extends Component{
               onPasswordChange={onPasswordChange}
               onLoginClick={onLoginClick}
               onRegisterClick={onRegisterClick}
+              setShow={setShow}
               />
           </div>
         );

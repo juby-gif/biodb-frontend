@@ -18,7 +18,7 @@ export default function ContactComponent(props){
           <Container fluid>
                 <Row>
                 <Navbar  fixed="top" expand="sm" >
-                    <LinkContainer className="nav" style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
+                    <LinkContainer style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
                     </LinkContainer>
                     <Nav className="mr-auto">
                       <LinkContainer className="nav" style={{fontFamily:"verdana",color:"white",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/login"><Nav.Link>Login</Nav.Link>
@@ -44,25 +44,29 @@ export default function ContactComponent(props){
                 </Row>
                 <Row>
                   <Col>
-                  <Form>
-                  <br />
-                  <br />
-                      <Form.Group controlId="name">
-                          <Form.Control type="text" placeholder="Your name" />
-                      </Form.Group>
-                      <Form.Group controlId="email">
-                          <Form.Control type="email" placeholder="Email" />
-                      </Form.Group>
-                      <Form.Group controlId="subject">
-                          <Form.Control type="text" placeholder="Subject" />
-                      </Form.Group>
-                      <Form.Group controlId="message">
-                          <Form.Control as="textarea" rows="6" placeholder="Your message here..." />
-                      </Form.Group>
-                      <Button variant="primary" type="submit">
-                        Submit
-                      </Button>
-                </Form>
+                      <Form>
+                        <br />
+                        <br />
+                            <Form.Group controlId="name">
+                                <Form.Control type="text" placeholder="Your name" />
+                            </Form.Group>
+                            <Form.Group controlId="email">
+                                <Form.Control type="email" placeholder="Email" />
+                            </Form.Group>
+                            <Form.Group controlId="subject">
+                                <Form.Control type="text" placeholder="Subject" />
+                            </Form.Group>
+                            <Form.Group controlId="message">
+                                <Form.Control as="textarea" rows="6" placeholder="Your message here..." />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">
+                              Submit
+                            </Button>
+                      </Form>
+                  </Col>
+                  <Col>
+                  </Col>
+                  <Col>
                   </Col>
                 </Row>
           </Container>
