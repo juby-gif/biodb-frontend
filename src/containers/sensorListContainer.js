@@ -24,6 +24,7 @@ export default class SensorListContainer extends Component{
           maximum : "",
           minimum : "",
           file:"",
+          errorStatus:"",
 
         };
         this.onStepSensorClick = this.onStepSensorClick.bind(this);
@@ -34,6 +35,7 @@ export default class SensorListContainer extends Component{
         this.onHeartRateSensorClick = this.onHeartRateSensorClick.bind(this);
         this.onEnergyBurnedSensorClick = this.onEnergyBurnedSensorClick.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
+        this.onLogoutProcessAPI = this.onLogoutProcessAPI.bind(this);
       }
 
     /* *
@@ -85,16 +87,41 @@ export default class SensorListContainer extends Component{
           }
           else{
             this.setState({
-                message : response.data.Error.toString(),
+                message : "Sorry No Records were found!",
             });
           }
         })
 
         .catch(error => {
           this.setState({
-              message : error.toString()
+              message : error.toString(),
+              errorStatus:"error",
           });
         })
+    }
+
+    onLogoutProcessAPI(){
+      setTimeout(()=>{
+        const axios = require('axios').default;
+        const token = this.state.token;
+        this.setState({
+          message:"",
+        })
+
+        axios.post('http://127.0.0.1:8000/api/logout')
+
+          .then(response => {
+            console.log(response.data)
+            this.props.history.push("/");
+          })
+
+          .catch(error => {
+            this.setState({
+                message : error.toString(),
+                errorStatus:"error",
+            });
+          })
+      },1500);
     }
 
     /* *
@@ -103,11 +130,14 @@ export default class SensorListContainer extends Component{
     */
     onLogoutClick = (event) => {
     event.preventDefault();
+    this.setState({
+      message:"Logging out......Please wait!",
+      errorStatus:"no-error",
+    })
     localStorage.removeItem(BIODB_TOKEN);
     localStorage.removeItem(BIODB_USER_DETAIL);
     localStorage.removeItem(BIODB_LOGGED_IN_USER);
-    alert("Succesfully Logged out");
-    this.props.history.push("/");
+    this.onLogoutProcessAPI();
     }
 
     onUserProfileRetrieveClick = (event) => {
@@ -175,7 +205,8 @@ export default class SensorListContainer extends Component{
                 username,
                 email,
                 welcomeName,
-                 file} = this.state;
+                file,
+                errorStatus} = this.state;
         const {
           onStepSensorClick,
           onWalkingandRunningSensorClick,
@@ -193,6 +224,7 @@ export default class SensorListContainer extends Component{
                       token={token}
                       name={name}
                       mean={mean}
+                      errorStatus={errorStatus}
                       mode={mode}
                       median={median}
                       maximum={maximum}
@@ -206,7 +238,7 @@ export default class SensorListContainer extends Component{
                       onEnergyBurnedSensorClick={onEnergyBurnedSensorClick}
                       onLogoutClick = {onLogoutClick}
                       onFileChange={onFileChange}
-                      
+
               />
         </div>
       );

@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Alert from 'react-bootstrap/Alert';
+import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import CardDeck from 'react-bootstrap/CardDeck';
+import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
 
+import userimg from '../img/userimg.jpg';
 import '../App.css'
 
 
@@ -13,50 +23,64 @@ export default function UserProfileRetrieveComponent(props){
             onUserProfileUpdateClick,
             onBackClick } = props;
     return(
-      <div>
-          <p className = "validation-error">{message}</p>
+      <Container style={{backgroundColor:"white"}} fluid>
+            <Row>
+                {message !== "" &&
+                <div className="mt-4 w-75">
+                    <Alert variant="danger">
+                        {message}
+                    </Alert>
+                </div>}
+            </Row>
+            <Row>
+                <Col>
+                </Col>
+                <Col>
+                    <CardDeck>
+                        <Card className="mt-5 shadow-lg p-3 mb-5 rounded" style={{backgroundColor:"rgba(155, 155, 155,0.6)"}}>
+                              <center>
+                              <Col xs={6} md={4}>
+                                <Image src={userimg} roundedCircle fluid/>
+                              </Col>
+                              </center>
+                              <Form>
+                                  <Form.Group controlId="formGroupFirstName">
+                                      <Form.Label>First Name</Form.Label>
+                                      <Form.Control type="text" placeholder="First Name" value={firstName} readOnly />
+                                  </Form.Group>
+                                  <Form.Group controlId="formGroupLastName">
+                                      <Form.Label>Last Name</Form.Label>
+                                      <Form.Control type="text" placeholder="Last Name" value={lastName} readOnly/>
+                                  </Form.Group>
+                                  <Form.Group controlId="formGroupEmail">
+                                      <Form.Label>Email</Form.Label>
+                                      <Form.Control type="email" placeholder="Email"  value={email} readOnly/>
+                                  </Form.Group>
+                                  <Form.Group controlId="formGroupUsername">
+                                      <Form.Label>Username</Form.Label>
+                                      <Form.Control type="text" placeholder="Username" value={username} readOnly/>
+                                  </Form.Group>
 
-          <input
-            type="text"
-            value={firstName}
-            placeholder="First Name"
-            readOnly
-          />
+                              </Form>
+                              <Row>
+                                  <Button
+                                      className="mt-3 ml-5 w-25"
+                                      onClick={event => onUserProfileUpdateClick(event)}>
+                                      Update
+                                  </Button>
+                                  <Button
+                                  className="mt-3 ml-3 w-25"
+                                      onClick={event => onBackClick(event)}>
+                                      Back
+                                  </Button>
+                              </Row>
 
-          <input
-            type="text"
-            value={lastName}
-            placeholder="Last Name"
-            readOnly
-          />
-
-          <input
-            type="text"
-            value={email}
-            placeholder="Email"
-            readOnly
-          />
-
-          <input
-            type="text"
-            value={username}
-            placeholder="Username"
-            readOnly
-          />
-          <br />
-          <br />
-
-          <button
-              style= {{marginLeft:"2%",marginTop:"30%"}}
-              onClick={event => onUserProfileUpdateClick(event)}>
-              Update
-          </button>
-          <button
-              style={{marginLeft:"15%",marginRight:"60%",marginTop:"2%",marginBottom:"2%"}}
-              onClick={event => onBackClick(event)}>
-              Back
-          </button>
-
-      </div>
+                        </Card>
+                    </CardDeck>
+                </Col>
+                <Col>
+                </Col>
+            </Row>
+      </Container>
     );
 }

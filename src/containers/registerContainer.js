@@ -43,8 +43,6 @@ export default class RegisterContainer extends Component{
        *  Component Life-cycle Management
        *------------------------------------------------------------
     */
-
-
     //Nothing
 
     /* *

@@ -114,6 +114,7 @@ export default function SensorDetailComponent(props){
           } = props;
     return(
       <Container fluid style={{backgroundColor:"white"}}>
+
         <Navbar style={{backgroundColor:"black"}} className="nav-bar" fixed="top">
             <LinkContainer  style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
             </LinkContainer>
@@ -139,11 +140,12 @@ export default function SensorDetailComponent(props){
             <Row className="mt-5">
               <h1 className="mt-5 text-center mw-75" style={{color:"black",}}>{name}</h1>
             </Row>
+
             {message != "" &&
             <div className="mt-4 w-75">
-                <Alert variant="danger" >
-                    {message}
-                </Alert>
+            <Alert variant="danger" >
+                {message}
+            </Alert>
             </div>}
             <br />
             {/*<center>                      # Search field for phase 2
@@ -170,5 +172,5 @@ export default function SensorDetailComponent(props){
             </Button>
         </div>)}
       </Container>
-    );
+        );
     }

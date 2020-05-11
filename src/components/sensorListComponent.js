@@ -30,6 +30,7 @@ export default function SensorListComponent(props){
             median,
             maximum,
             minimum,
+            errorStatus,
             onStepSensorClick,
             onWalkingandRunningSensorClick,
             onViewClick,
@@ -52,16 +53,20 @@ export default function SensorListComponent(props){
                             </Nav>
                         </Navbar>
                   <Row className="mt-5 ml-3">
-
-                  {message !== "" &&
-                  <div className="mt-4 w-75">
-
-                  <Alert variant="danger" >
-                      {message}
-                  </Alert>
-                  </div>
-                  }
-
+                      {message === "Sorry No Records were found!" &&
+                      <div className="mt-4 w-75">
+                          <Alert variant="danger" >
+                              {message}
+                          </Alert>
+                      </div>
+                      }
+                      {errorStatus === "no-error" &&
+                      <div className="mt-4 w-75">
+                          <Alert variant="info" >
+                              {message}
+                          </Alert>
+                      </div>
+                      }
                   </Row>
                   <Row>
                       <br />
@@ -71,8 +76,6 @@ export default function SensorListComponent(props){
                   <br />
                   <br />
                   <br />
-
-
                   <Row className="ml-5 mr-5">
                         <CardDeck>
                           <Row>

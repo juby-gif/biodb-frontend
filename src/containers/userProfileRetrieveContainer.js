@@ -18,6 +18,7 @@ export default class UserProfileRetrieveContainer extends Component{
           username:"",
           email:"",
           token: localStorage.getItem(BIODB_TOKEN),
+          message:"",
       };
       this.onUserProfileUpdateClick = this.onUserProfileUpdateClick.bind(this);
       this.onBackClick = this.onBackClick.bind(this);

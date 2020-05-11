@@ -59,12 +59,12 @@ export default function RegisterComponent(props){
                 {message}
             </Alert>}
             </Row>
-            <Row className="mt-4">
+            <Row>
                 <Col>
                 </Col>
             <Col>
                 <CardDeck>
-                    <Card className="mt-5 shadow-lg p-3 mb-5 rounded" style={{backgroundColor:"rgba(120, 230, 255,0.4)"}}>
+                    <Card className="mt-5 shadow-lg p-3 mb-5 rounded" style={{backgroundColor:"rgba(255, 255, 255,0.6)"}}>
                           <Form noValidate validated={validated} className="ml-5 p-4 mt-2">
                                 <Form.Row>
                                     <Form.Group as={Col} md="6" lg="5" controlId="validationCustomFirstName" className="mt-3">
