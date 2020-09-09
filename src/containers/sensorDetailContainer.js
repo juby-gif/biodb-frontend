@@ -60,13 +60,7 @@ export default class SensorDetailContainer extends Component{
       window.scrollTo(0, 0);      
       }
 
-      componentWillMount() {
-        const name = this.props.match.params.name;
-        let { totalSize,page } = this.state;
-        // this.onChartDataLoad(name,page,totalSize);
-      }
-
-      componentWillUnmount() {
+    componentWillUnmount() {
         if (this.chart) {
           this.chart.dispose();
         }
