@@ -25,6 +25,7 @@ export default class SensorListContainer extends Component{
           minimum : "",
           file:"",
           errorStatus:"",
+          data: [],
 
         };
         this.onStepSensorClick = this.onStepSensorClick.bind(this);
@@ -34,7 +35,7 @@ export default class SensorListContainer extends Component{
         this.onUserProfileRetrieveClick = this.onUserProfileRetrieveClick.bind(this);
         this.onHeartRateSensorClick = this.onHeartRateSensorClick.bind(this);
         this.onEnergyBurnedSensorClick = this.onEnergyBurnedSensorClick.bind(this);
-        this.onFileChange = this.onFileChange.bind(this);
+        // this.onFileChange = this.onFileChange.bind(this);
         this.onLogoutProcessAPI = this.onLogoutProcessAPI.bind(this);
       }
 
@@ -54,12 +55,13 @@ export default class SensorListContainer extends Component{
         welcomeName : user.username,
       })
     }
+    
 
     /* *
         *  API callback functions
         *------------------------------------------------------------
     */
-    onSensorStatisticsDataLoad(name){
+    onSensorStatisticsDataLoad=(name)=>{
       const axios = require('axios').default;
       const token = this.state.token;
       this.setState({
@@ -100,7 +102,7 @@ export default class SensorListContainer extends Component{
         })
     }
 
-    onLogoutProcessAPI(){
+    onLogoutProcessAPI=()=>{
       setTimeout(()=>{
         const axios = require('axios').default;
         const token = this.state.token;
@@ -177,15 +179,15 @@ export default class SensorListContainer extends Component{
       this.onSensorStatisticsDataLoad("HKQuantityTypeIdentifierBasalEnergyBurned");
       }
 
-      onFileChange(event){
-        this.setState({
-          file:event.target.files[0],
-        })
+      // onFileChange(event){
+      //   this.setState({
+      //     file:event.target.files[0],
+      //   })
 
 
      // Details of the uploaded file
-     console.log(this.state.file);
-      }
+    //  console.log(this.state.file);
+      // }
 
     /* *
        *  Main render function
@@ -217,8 +219,9 @@ export default class SensorListContainer extends Component{
           onEnergyBurnedSensorClick,
         onFileChange} = this;
         return(
-          <div>
-              <SensorListComponent
+          <div style={{backgroundColor:"white"}}>
+            <br />
+            <SensorListComponent
                       welcomeName={welcomeName}
                       message={message}
                       token={token}
@@ -239,8 +242,8 @@ export default class SensorListContainer extends Component{
                       onLogoutClick = {onLogoutClick}
                       onFileChange={onFileChange}
 
-              />
-        </div>
-      );
-     }
+                    />
+              </div>
+        );
+    }
 }

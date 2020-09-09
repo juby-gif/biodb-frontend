@@ -94,6 +94,7 @@ class RemoteListComponent extends Component {
                   remote
                   onTableChange={ onTableChange }
                   pagination={ paginationFactory(paginationOption) }
+                  wrapperClasses="table-responsive"
               />}
             </div>
         );
@@ -113,7 +114,7 @@ export default function SensorDetailComponent(props){
             isLoading,
           } = props;
     return(
-      <Container fluid style={{backgroundColor:"white"}}>
+      <Container fluid>
 
         <Navbar style={{backgroundColor:"black"}} className="nav-bar" fixed="top">
             <LinkContainer  style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>

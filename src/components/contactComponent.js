@@ -17,7 +17,7 @@ export default function ContactComponent(props){
       <div>
           <Container fluid>
                 <Row>
-                <Navbar  fixed="top" expand="sm" >
+                <Navbar  fixed="top">
                     <LinkContainer style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>
                     </LinkContainer>
                     <Nav className="mr-auto">
@@ -31,13 +31,11 @@ export default function ContactComponent(props){
                       </LinkContainer>
                     </Nav>
                 </Navbar>
-                    <Card responsive className="bg-dark text-white">
-                        <Card.Img src={img4} alt="Card image" width="845" height="350" />
+                    <Card className="bg-dark text-white">
+                        <Card.Img src={img4} alt="Card image" height="270rem"/>
                         <Card.ImgOverlay>
-                            <Card.Title style={{transform:"translateY(490%)",marginTop:"-60px",
-                                                textAlign:"center", fontFamily:"verdana",
-                                                fontSize:"250%",textShadow: "0 0 10px rgba(0,0,0,1.5)"}}>
-                                                Let's be Connected!
+                            <Card.Title className="m-5 text-center font-weight-bold display-4">
+                                  Let's be Connected!
                             </Card.Title>
                         </Card.ImgOverlay>
                     </Card>
@@ -66,9 +64,8 @@ export default function ContactComponent(props){
                   </Col>
                   <Col>
                   </Col>
-                  <Col>
-                  </Col>
                 </Row>
+                <br />
           </Container>
       </div>
   );

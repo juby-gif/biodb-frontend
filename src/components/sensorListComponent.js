@@ -155,17 +155,24 @@ export default function SensorListComponent(props){
                 </Row>
                 <br />
                 <br />
-                <Row className="ml-5 mr-5">
-                    <SensorTable
-                        name={name}
-                        mean={mean}
-                        mode={mode}
-                        median={median}
-                        maximum={maximum}
-                        minimum={minimum}
-                        onViewClick = {onViewClick}
-                    />
+                <Row>
+                    <Col>
+                    </Col>
+                    <Col>
+                        <SensorTable
+                            name={name}
+                            mean={mean}
+                            mode={mode}
+                            median={median}
+                            maximum={maximum}
+                            minimum={minimum}
+                            onViewClick = {onViewClick}
+                        />
+                      </Col>
+                      <Col>
+                      </Col>
                 </Row>
+
                 <Row className="mt-5 ml-5">
                     <input
                         type="file"
@@ -191,7 +198,7 @@ export default function SensorListComponent(props){
               onViewClick } = props;
 
       return(
-        <Table responsive="sm">
+        <Table responsive="sm" striped bordered hover>
           <thead className="table-header">
               {name !== "" && <tr>
                 <th>Name</th>

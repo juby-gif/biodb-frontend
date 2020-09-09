@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_kelly from "@amcharts/amcharts4/themes/kelly";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 import SensorDetailComponent from '../components/sensorDetailComponent';
 import { BIODB_TOKEN } from '../constants';
+import '../App.css'
 
 
+am4core.useTheme(am4themes_kelly);
+am4core.useTheme(am4themes_animated);
 export default class SensorDetailContainer extends Component{
 
     /*   *
@@ -28,6 +35,7 @@ export default class SensorDetailContainer extends Component{
         //List
         data:null,
         }
+      this.onChartPlotter = this.onChartPlotter.bind(this);
       this.onBackClick = this.onBackClick.bind(this);
       this.onSearchChange = this.onSearchChange.bind(this);
       this.onTableChange = this.onTableChange.bind(this);
@@ -46,10 +54,23 @@ export default class SensorDetailContainer extends Component{
     */
     componentDidMount(){
       const name = this.props.match.params.name;
-      let page = this.state.page
+      let { chartData,totalSize,page } = this.state;
       this.onSensorDetailLoad(name,page);
-      // console.log(this.state.data)// For debugging purpose only
-    }
+      this.onChartPlotter();
+      window.scrollTo(0, 0);      
+      }
+
+      componentWillMount() {
+        const name = this.props.match.params.name;
+        let { totalSize,page } = this.state;
+        // this.onChartDataLoad(name,page,totalSize);
+      }
+
+      componentWillUnmount() {
+        if (this.chart) {
+          this.chart.dispose();
+        }
+      }
 
     /* *
         *  API callback functions
@@ -57,7 +78,7 @@ export default class SensorDetailContainer extends Component{
     */
     async onSensorDetailLoad(name,page,sizePerPage){
         // console.log(name,page)// For debugging purpose only
-        
+
         setTimeout(() => { //Set delay of 1500 for loading state
         const axios = require('axios').default;
         const token = localStorage.getItem(BIODB_TOKEN);
@@ -129,12 +150,63 @@ export default class SensorDetailContainer extends Component{
     }
     }
 
-    /* *
-       *  Main render function
-       *------------------------------------------------------------
-    */
-    render(){
+    onChartPlotter = () => {
+      let chart = am4core.create("chart-plot", am4charts.XYChart);
+      chart.paddingRight = 20;
 
+  // Chart generation
+    const { data } = this.state;
+    if(data !== null && data !== "undefined" ) {
+      console.log(data)
+      let dataArr = [],i;
+      if (data.length > 0){
+        for (i=0;i<data.length;i++){
+          dataArr.push({ date: data[i].creation_date, value: data[i].value });  
+        }
+      }
+    // console.log(dataArr) //For debugging purpose only
+
+    // Create chart instance
+    let chart = am4core.create("chart-plot", am4charts.XYChart);
+
+    // Add data
+    chart.data = dataArr;
+
+    // Create axes
+    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 50;
+    // valueAxis.title.text = "Counts";
+
+    // Create series
+    let series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = "value";
+    series.dataFields.dateX = "date";
+    series.strokeWidth = 2;
+    series.minBulletDistance = 10;
+    series.tooltipText = "{valueY}";
+    series.tooltip.pointerOrientation = "vertical";
+    series.tooltip.background.cornerRadius = 20;
+    series.tooltip.background.fillOpacity = 0.5;
+    series.tooltip.label.padding(12,12,12,12)
+
+    // Add scrollbar
+    chart.scrollbarX = new am4charts.XYChartScrollbar();
+    chart.scrollbarX.series.push(series);
+
+    // Add cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.xAxis = dateAxis;
+    chart.cursor.snapToSeries = series;
+    }
+
+  }
+
+  /* *
+      *  Main render function
+      *------------------------------------------------------------
+  */
+    render(){
+            
         const { name,
                 token,
                 data,
@@ -143,19 +215,20 @@ export default class SensorDetailContainer extends Component{
                 page,
                 sizePerPage,
                 totalSize,
-                isLoading,
+                isLoading,chartData
               } = this.state;
-
-              // console.log(name); // For debugging purposes only.
-              // console.log(totalSize) // For debugging purposes only.
 
         const { onBackClick,
                 onSearchChange,
                  onTableChange,
               } = this;
-
+              
+                this.onChartPlotter();
+              
         return(
-          <div>
+          <div style={{backgroundColor:"#ffff"}}>
+              <br /><br /><br /><br />
+              <div id="chart-plot"></div>
               <SensorDetailComponent
                       name={name}
                       token={token}
@@ -172,5 +245,5 @@ export default class SensorDetailContainer extends Component{
               />
           </div>
         );
-      }
-  }
+    }
+}
