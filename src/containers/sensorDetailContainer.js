@@ -158,7 +158,7 @@ export default class SensorDetailContainer extends Component{
           dataArr.push({ date: data[i].creation_date, value: data[i].value });  
         }
       }
-    // console.log(dataArr) //For debugging purpose only
+    console.log(dataArr) //For debugging purpose only
 
     // Create chart instance
     let chart = am4core.create("chart-plot", am4charts.XYChart);
@@ -169,6 +169,8 @@ export default class SensorDetailContainer extends Component{
     // Create axes
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
+    
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis()); 
     // valueAxis.title.text = "Counts";
 
     // Create series
