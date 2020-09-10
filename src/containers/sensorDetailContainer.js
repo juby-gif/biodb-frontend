@@ -54,10 +54,11 @@ export default class SensorDetailContainer extends Component{
     */
     componentDidMount(){
       const name = this.props.match.params.name;
-      let { chartData,totalSize,page } = this.state;
+      window.scrollTo(0, 0); 
+      let { page } = this.state;
       this.onSensorDetailLoad(name,page);
       this.onChartPlotter();
-      window.scrollTo(0, 0);      
+           
       }
 
     componentWillUnmount() {
@@ -149,7 +150,7 @@ export default class SensorDetailContainer extends Component{
       chart.paddingRight = 20;
 
   // Chart generation
-    const { data } = this.state;
+    const { data,name } = this.state;
     if(data !== null && data !== "undefined" ) {
       console.log(data)
       let dataArr = [],i;
@@ -169,9 +170,24 @@ export default class SensorDetailContainer extends Component{
     // Create axes
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
-    
+
     let valueAxis = chart.yAxes.push(new am4charts.ValueAxis()); 
-    // valueAxis.title.text = "Counts";
+    if(name === "HKQuantityTypeIdentifierStepCount"){
+      valueAxis.title.text = "Steps";
+    }
+    else if (name === "HKQuantityTypeIdentifierDistanceWalkingRunning"){
+      valueAxis.title.text = "km";
+    }
+    else if (name === "HKQuantityTypeIdentifierHeartRate"){
+      valueAxis.title.text = "count/min";
+    }
+    else {
+      valueAxis.title.text = "kcal";
+    }
+    
+    
+    
+    
 
     // Create series
     let series = chart.series.push(new am4charts.LineSeries());
@@ -179,7 +195,7 @@ export default class SensorDetailContainer extends Component{
     series.dataFields.dateX = "date";
     series.strokeWidth = 2;
     series.minBulletDistance = 10;
-    series.tooltipText = "{valueY}";
+    series.tooltipText = "{valueY.value}";
     series.tooltip.pointerOrientation = "vertical";
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
@@ -223,8 +239,18 @@ export default class SensorDetailContainer extends Component{
               
         return(
           <div style={{backgroundColor:"#ffff"}}>
-              <br /><br /><br /><br />
-              <div id="chart-plot"></div>
+            <br />
+            <br />
+            <br />
+            {name === "HKQuantityTypeIdentifierStepCount" &&
+              <h4 className="mt-5 text-center mw-75" style={{color:"black",}}>Step Counts Graph</h4>}
+              {name === "HKQuantityTypeIdentifierDistanceWalkingRunning" &&
+              <h4 className="mt-5 text-center mw-75" style={{color:"black",}}>Walking and Running Graph</h4>}
+              {name === "HKQuantityTypeIdentifierHeartRate" &&
+              <h4 className="mt-5 text-center mw-75" style={{color:"black",}}>Heart Rate Graph</h4>}
+              {name === "HKQuantityTypeIdentifierBasalEnergyBurned" &&
+              <h4 className="mt-5 text-center mw-75" style={{color:"black",}}>Energy Burned Graph</h4>}
+            <div id="chart-plot"></div>
               <SensorDetailComponent
                       name={name}
                       token={token}

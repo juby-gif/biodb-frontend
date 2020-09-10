@@ -15,7 +15,7 @@ import img3 from "../img/img3.jpg";
 export default function LandingPageComponent(props){
   const { handleSelect,index } = props
   return(
-    <Container fluid>
+    <Container fluid style={{backgroundColor:"rgba(0,0,0,0.9)"}}>
         <Row>
           <Navbar  fixed="top" expand="sm" >
               <LinkContainer style={{color:"red",textShadow: "0 0 10px rgba(0,0,0,1.5)"}} to="/"><Navbar.Brand><b>BioDB</b></Navbar.Brand>

@@ -149,9 +149,10 @@ export default class RegisterContainer extends Component{
   onResponseProcessFromAPI(firstName,lastName,email,username,password){
     const { status,} = this.state;
     this.getResponseFromAPI(firstName,lastName,email,username,password);
-    if(status === "success"){
+    setTimeout(()=>{ if(status === "success"){
       this.props.history.push("/login");
     }
+    },1500)
   }
 
   /* *

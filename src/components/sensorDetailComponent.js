@@ -129,17 +129,22 @@ export default function SensorDetailComponent(props){
             </Nav>
         </Navbar>
       {isLoading ? (
-        <div className="mt-5 pt-5">
-            <div className="mt-5 pt-5">
-                <center className="mt-5 pt-5">
-                    <ReactLoading className="mt-5 pt-5" type={"bars"} color={"white"} />
+        <div >
+                <center>
+                    <ReactLoading className="mt-5 pt-5" type={"bars"} color={"black"} />
                 </center>
-            </div>
         </div>
         ) : (
         <div>
-            <Row className="mt-5">
-              <h1 className="mt-5 text-center mw-75" style={{color:"black",}}>{name}</h1>
+            <Row className="mt-5 ml-1">
+              {name === "HKQuantityTypeIdentifierStepCount" &&
+              <h4 className="mt-5 text-center mw-75" style={{color:"black",}}>Here's your tabulated data of the latest Step Counts data from the system</h4>}
+              {name === "HKQuantityTypeIdentifierDistanceWalkingRunning" &&
+              <h4 className="mt-5 text-center mw-75" style={{color:"black",}}>Here's your tabulated data of the latest Walking and Running data from the system</h4>}
+              {name === "HKQuantityTypeIdentifierHeartRate" &&
+              <h4 className="mt-5 text-center mw-75" style={{color:"black",}}>Here's your tabulated data of the latest Heart Rate data from the system</h4>}
+              {name === "HKQuantityTypeIdentifierBasalEnergyBurned" &&
+              <h4 className="mt-5 text-center mw-75" style={{color:"black",}}>Here's your tabulated data of the latest Energy Burned data from the system</h4>}
             </Row>
 
             {message != "" &&

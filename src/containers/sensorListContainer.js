@@ -219,7 +219,7 @@ export default class SensorListContainer extends Component{
           onEnergyBurnedSensorClick,
         onFileChange} = this;
         return(
-          <div style={{backgroundColor:"white"}}>
+          <div style={{backgroundColor:"#ffff"}}>
             <br />
             <SensorListComponent
                       welcomeName={welcomeName}
